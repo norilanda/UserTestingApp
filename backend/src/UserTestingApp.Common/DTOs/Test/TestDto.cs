@@ -1,7 +1,7 @@
 ﻿namespace UserTestingApp.Common.DTOs.Test;
 
-public record IncompleteTestDto(
+public record TestDto (
     long Id, 
     string Name, 
-    int AttemptsAllowed
+    double Mark
     );
