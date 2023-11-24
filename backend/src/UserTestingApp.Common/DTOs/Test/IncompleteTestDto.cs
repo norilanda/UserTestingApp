@@ -2,6 +2,5 @@
 
 public record IncompleteTestDto(
     long Id, 
-    string Name, 
-    int AttemptsAllowed
+    string Name 
     );
