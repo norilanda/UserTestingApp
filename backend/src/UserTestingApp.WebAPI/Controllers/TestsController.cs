@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserTestingApp.BLL.Interfaces;
 using UserTestingApp.Common.DTOs.Answer;
 using UserTestingApp.Common.DTOs.Test;
 
@@ -7,13 +8,21 @@ namespace UserTestingApp.WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+//[Authorize]
 public class TestsController : ControllerBase
 {
-    [HttpGet("{id}")]
-    public Task<ActionResult<TestWithTasksDto>> Get(long id)
+    private readonly ITestService _testService;
+
+    public TestsController(ITestService testService)
     {
-        throw new NotImplementedException();
+        _testService = testService;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TestWithTasksDto>> Get(long id)
+    {
+        var testWithTasks = await _testService.GetTestWithTasksByIdAsync(id);
+        return Ok(testWithTasks);
     }
 
     [HttpGet("assigned")]

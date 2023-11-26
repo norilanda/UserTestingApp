@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UserTestingApp.BLL.Interfaces;
+using UserTestingApp.BLL.Services;
 using UserTestingApp.DAL.Context;
+using UserTestingApp.DAL.Interfaces;
+using UserTestingApp.DAL.Services;
 
 namespace UserTestingApp.WebAPI.Extensions;
 
@@ -14,5 +18,12 @@ public static class ServiceCollectionExtensions
                 connectionString, 
                 opt => opt.MigrationsAssembly(typeof(UserTestingAppContext).Assembly.GetName().Name))
             );
+    }
+
+    public static void AddServices(this IServiceCollection services)
+    {
+        services.AddScoped(typeof(IGenericRepository<>), typeof(EfRepository<>));
+
+        services.AddScoped<ITestService, TestService>();
     }
 }

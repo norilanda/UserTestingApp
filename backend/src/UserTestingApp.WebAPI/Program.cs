@@ -1,4 +1,5 @@
 using UserTestingApp.WebAPI.Extensions;
+using UserTestingApp.WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddUserTestingAppContext(builder.Configuration);
+builder.Services.AddServices();
 
 var app = builder.Build();
 
@@ -21,6 +23,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.InitializeDatabase();
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
