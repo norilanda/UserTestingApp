@@ -20,22 +20,24 @@ public static class DataGeneratorHelper
     {
         var random = new Random();
 
-        int count = 0;
-        int currentUserId = 0;
+        int count = 1;
+        int currentUserId = 1;
 
         List<AssignedTest> assignedTests = new();
 
-        while (currentUserId < _userNumber)
+        var isCompleted = () => count%2 == 0;
+
+        while (currentUserId <= _userNumber)
         {
             var testNumberForCurentUser = random.Next(_minTestNumberPerUser, _maxTestNumberPerUser);
-            int testCount = 0;
+            int testCount = 1;
 
             var assignedTestFaker = new Faker<AssignedTest>()
                 .RuleFor(t => t.Id, _ => count++)
                 .RuleFor(t => t.TestId, _ => testCount++)
                 .RuleFor(t => t.UserId, _ => currentUserId)
-                .RuleFor(t => t.Mark, f => f.Random.Number(1, 3))
-                .RuleFor(t => t.DateCompleted, f => f.Date.Past());
+                .RuleFor(t => t.Mark, f => isCompleted() ? f.Random.Number(1, 3) : (int?)null)
+                .RuleFor(t => t.DateCompleted, f => isCompleted() ? f.Date.Past() : (DateTime?) null);
 
             assignedTests.AddRange(assignedTestFaker.Generate(testNumberForCurentUser));
 
@@ -49,12 +51,12 @@ public static class DataGeneratorHelper
     {
         var random = new Random();
 
-        int count = 0;
-        int currentTestId = 0;
+        int count = 1;
+        int currentTestId = 1;
 
         List<Entities.Task> Tasks = new();
 
-        while (currentTestId < _testNumber)
+        while (currentTestId <= _testNumber)
         {
             var tasktNumberForCurentTest = random.Next(_minTaskNumberPerTest, _maxTaskNumberPerTest);
             int currentTaskNumber = 1;
@@ -76,7 +78,7 @@ public static class DataGeneratorHelper
 
     public static IEnumerable<Test> GenerateTests()
     {
-        int count = 0;
+        int count = 1;
 
         var testFaker = new Faker<Test>()
             .RuleFor(t => t.Id, _ =>  count++)
@@ -87,11 +89,11 @@ public static class DataGeneratorHelper
 
     public static IEnumerable<User> GenerateUsers()
     {
-        int count = 0;
+        int count = 1;
 
         var userFaker = new Faker<User>()
             .RuleFor(u => u.Id, _ => count++)
-            .RuleFor(u => u.Username, f => f.Person.UserName)
+            .RuleFor(u => u.Username, f => $"user{count}")
             .RuleFor(u => u.Salt, Convert.ToBase64String(PasswordHasherHelper.GenerateSalt()))
             .RuleFor(u => u.PasswordHash, 
                 (_, u) => PasswordHasherHelper.HashPassword($"{u.Username}", Convert.FromBase64String(u.Salt)));
