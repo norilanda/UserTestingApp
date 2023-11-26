@@ -11,13 +11,11 @@ public class UserTestingAppContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<AssignedTest> AssignedTests { get; set; }
 
-    public UserTestingAppContext(DbContextOptions<UserTestingAppContext> options) : base(options)
-    {
-        
-    }
+    public UserTestingAppContext(DbContextOptions<UserTestingAppContext> options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Configure();
+        modelBuilder.Seed();
     }
 }
