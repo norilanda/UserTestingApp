@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using UserTestingApp.BLL.Interfaces;
 using UserTestingApp.BLL.Options;
 using UserTestingApp.BLL.Services;
@@ -30,6 +31,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITestService, TestService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IAuthService, AuthService>();
+
+        services.AddScoped<IUserIdStorageService, UserIdStorageService>();
+        services.AddScoped<IUserIdGetter>(provider => provider.GetService<IUserIdStorageService>()!);
     }
 
     public static void AddJwtTokenAuth(this IServiceCollection services, IConfiguration configuration)
@@ -68,6 +72,34 @@ public static class ServiceCollectionExtensions
         .AddJwtBearer(options =>
         {
             options.TokenValidationParameters = tokenValidationParameters;
+        });
+    }
+
+    public static void AddSwagger(this IServiceCollection services)
+    {
+        services.AddSwaggerGen(c => {
+            c.SwaggerDoc("v1", new OpenApiInfo {
+                Title = "JWTToken_Auth_API", Version = "v1"
+            });
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme() {
+                Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+            });
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                    new OpenApiSecurityScheme {
+                        Reference = new OpenApiReference {
+                            Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                        }
+                    },
+                    new string[] {}
+                }
+            });
         });
     }
 }

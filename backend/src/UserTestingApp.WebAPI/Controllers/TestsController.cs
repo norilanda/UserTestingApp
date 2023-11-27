@@ -8,14 +8,16 @@ namespace UserTestingApp.WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-//[Authorize]
+[Authorize]
 public class TestsController : ControllerBase
 {
     private readonly ITestService _testService;
+    private readonly IUserIdGetter _userIdGetter;
 
-    public TestsController(ITestService testService)
+    public TestsController(ITestService testService, IUserIdGetter userIdGetter)
     {
         _testService = testService;
+        _userIdGetter = userIdGetter;
     }
 
     [HttpGet("{id}")]
@@ -28,7 +30,7 @@ public class TestsController : ControllerBase
     [HttpGet("assigned")]
     public async Task<ActionResult<IEnumerable<TestDto>>> GetAssignedTests()
     {
-        var userId = 1;
+        var userId = _userIdGetter.GetCurrentUserId();
         var assignedTests = await _testService.GetAssignedTestsForUserAsync(userId);
 
         return Ok(assignedTests);
@@ -37,7 +39,7 @@ public class TestsController : ControllerBase
     [HttpGet("incomplete")]
     public async Task<ActionResult<IEnumerable<IncompleteTestDto>>> GetIncompleteTests() 
     { 
-        var userId = 1;
+        var userId = _userIdGetter.GetCurrentUserId();
         var incompleteTests = await _testService.GetIncompleteTestsForUserAsync(userId);
 
         return Ok(incompleteTests);
@@ -46,7 +48,7 @@ public class TestsController : ControllerBase
     [HttpGet("completed")]
     public async Task<ActionResult<IEnumerable<TestDto>>> GetCompletedTests() 
     { 
-        var userId = 1;
+        var userId = _userIdGetter.GetCurrentUserId();
         var completedTests = await _testService.GetCompletedTestsForUserAsync(userId);
 
         return Ok(completedTests);
@@ -55,7 +57,7 @@ public class TestsController : ControllerBase
     [HttpPost("{id}/pass")]
     public async Task<ActionResult<double>> Pass(long id, [FromBody] List<AnswerDto> answers)
     {
-        var userId = 1;
+        var userId = _userIdGetter.GetCurrentUserId();
         double mark = await _testService.PassTestAsync(id, userId, answers);
 
         return Ok(mark);
