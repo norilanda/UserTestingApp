@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ILogin } from 'src/app/core/models/ILogin';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -24,7 +25,7 @@ export class LoginComponent {
     }
   );
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   public onSubmit() {
     const user: ILogin = {
@@ -32,6 +33,8 @@ export class LoginComponent {
       password: this.loginForm.controls.password.value!,
     };
 
-    this.authService.signIn(user);
+    this.authService.signIn(user).subscribe(() => {
+      this.router.navigate(['/']);
+    });
   }
 }
