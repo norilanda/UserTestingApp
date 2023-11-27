@@ -1,4 +1,5 @@
-using UserTestingApp.WebAPI.Extensions;
+using UserTestingApp.WebAPI.ConfigExtensions;
+using UserTestingApp.WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwagger();
 
 builder.Services.AddUserTestingAppContext(builder.Configuration);
+builder.Services.AddServices();
+builder.Services.AddJwtTokenAuth(builder.Configuration);
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -22,9 +26,14 @@ if (app.Environment.IsDevelopment())
 
 app.InitializeDatabase();
 
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<CurrentUserIdMiddleware>();
 
 app.MapControllers();
 
