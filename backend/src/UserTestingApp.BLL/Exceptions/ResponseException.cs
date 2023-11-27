@@ -15,4 +15,14 @@ public class ResponseException : Exception
     {
         return new ResponseException(HttpStatusCode.NotFound, message);
     }
+
+    public static ResponseException Forbidden(string message = "Not allowed to perform action")
+    {
+        return new ResponseException(HttpStatusCode.Forbidden, message);
+    }
+
+    public static ResponseException BadRequest(string message = "Invalid parameters")
+    {
+        return new ResponseException(HttpStatusCode.BadRequest, message);
+    }
 }

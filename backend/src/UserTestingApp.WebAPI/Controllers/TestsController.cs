@@ -26,26 +26,38 @@ public class TestsController : ControllerBase
     }
 
     [HttpGet("assigned")]
-    public Task<ActionResult<IEnumerable<TestDto>>> GetAssignedTests()
+    public async Task<ActionResult<IEnumerable<TestDto>>> GetAssignedTests()
     {
-        throw new NotImplementedException();
+        var userId = 1;
+        var assignedTests = await _testService.GetAssignedTestsForUserAsync(userId);
+
+        return Ok(assignedTests);
     }
 
     [HttpGet("incomplete")]
-    public Task<ActionResult<IEnumerable<IncompleteTestDto>>> GetIncompleteTests() 
+    public async Task<ActionResult<IEnumerable<IncompleteTestDto>>> GetIncompleteTests() 
     { 
-        throw new NotImplementedException(); 
+        var userId = 1;
+        var incompleteTests = await _testService.GetIncompleteTestsForUserAsync(userId);
+
+        return Ok(incompleteTests);
     }
 
     [HttpGet("completed")]
-    public Task<ActionResult<IEnumerable<TestDto>>> GetCompletedTests() 
+    public async Task<ActionResult<IEnumerable<TestDto>>> GetCompletedTests() 
     { 
-        throw new NotImplementedException(); 
+        var userId = 1;
+        var completedTests = await _testService.GetCompletedTestsForUserAsync(userId);
+
+        return Ok(completedTests);
     }
 
     [HttpPost("{id}/pass")]
-    public Task<ActionResult<double>> Pass([FromBody] List<AnswerDto> answers)
+    public async Task<ActionResult<double>> Pass(long id, [FromBody] List<AnswerDto> answers)
     {
-        throw new NotImplementedException();
+        var userId = 1;
+        double mark = await _testService.PassTestAsync(id, userId, answers);
+
+        return Ok(mark);
     }
 }

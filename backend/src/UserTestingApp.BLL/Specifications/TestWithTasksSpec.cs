@@ -4,9 +4,9 @@ using UserTestingApp.Common.DTOs.Test;
 using UserTestingApp.DAL.Entities;
 
 namespace UserTestingApp.BLL.Specifications;
-public class TestWithTasksSpecification : Specification<Test, TestWithTasksDto>
+public class TestWithTasksSpec : Specification<Test, TestWithTasksDto>
 {
-    public TestWithTasksSpecification(long testId)
+    public TestWithTasksSpec(long testId)
     {
         Query
             .Where(test => test.Id == testId)
