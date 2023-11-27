@@ -1,1 +1,15 @@
-<p>tests-page works!</p>
+<div class="wrapper">
+  <mat-card class="tests-card">
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab label="Assigned">
+        <app-test-list [tests$]="assignedTests$"></app-test-list>
+      </mat-tab>
+      <mat-tab label="Need to complete">
+        <app-test-list [tests$]="incompleteTests$"></app-test-list>
+      </mat-tab>
+      <mat-tab label="Completed">
+        <app-test-list [tests$]="completedTests$"></app-test-list>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>
