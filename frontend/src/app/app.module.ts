@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/shared/material/material.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { TestingModule } from './modules/testing/testing.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +17,8 @@ import { MaterialModule } from './modules/shared/material/material.module';
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
+    TestingModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
