@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UserTestingApp.DAL.Context;
 
-namespace UserTestingApp.WebAPI.Extensions;
+namespace UserTestingApp.WebAPI.ConfigExtensions;
 
 public static class ApplicationBuilderExtensions
 {

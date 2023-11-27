@@ -1,4 +1,4 @@
-using UserTestingApp.WebAPI.Extensions;
+using UserTestingApp.WebAPI.ConfigExtensions;
 using UserTestingApp.WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddUserTestingAppContext(builder.Configuration);
 builder.Services.AddServices();
+builder.Services.AddJwtTokenAuth(builder.Configuration);
 
 var app = builder.Build();
 
@@ -28,6 +29,7 @@ app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
