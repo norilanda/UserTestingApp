@@ -14,6 +14,7 @@ builder.Services.AddUserTestingAppContext(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddJwtTokenAuth(builder.Configuration);
 builder.Services.AddAuthorization();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -28,7 +29,14 @@ app.InitializeDatabase();
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
+app.UseCors(opt => opt
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .WithOrigins(builder.Configuration.GetSection("AppUrl").Get<string>()));
+
 app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();

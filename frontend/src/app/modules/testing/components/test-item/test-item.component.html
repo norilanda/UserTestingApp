@@ -1,0 +1,14 @@
+<div
+  class="test-item"
+  [ngClass]="{
+    'test-item-completed': isCompleted(),
+    'test-item-incomplete': !isCompleted()
+  }"
+>
+  <h2>{{ test.name }}</h2>
+  <p>Status: {{ isCompleted() ? "Completed" : "Incomplete" }}</p>
+  <p *ngIf="isCompleted()">Mark: {{ test.mark }}</p>
+  <button mat-flat-button *ngIf="!isCompleted()" (click)="goToPass()">
+    Complete
+  </button>
+</div>

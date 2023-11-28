@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+mat-label
+  display: block
+
+.wrapper-main-page
+  width: 100%
+  height: 100%
+  min-height: 100vh
+  background-color: #0f061d
+  display: flex
+
+@mixin card-base($width, $mobile-width, $min-height)
+  width: $width
+  min-height: $min-height
+  margin: auto
+  padding: 20px
+  font-size: 18px
+  @media screen and (max-width: 768px)
+    width: $mobile-width
+
