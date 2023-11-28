@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { TestService } from 'src/app/core/services/test.service';
 
 @Component({
@@ -13,5 +14,9 @@ export class TestsPageComponent {
 
   public completedTests$ = this.testService.completedTests$;
 
-  constructor(private testService: TestService) {}
+  constructor(private testService: TestService, private router: Router) {}
+
+  public goToLogin() {
+    this.router.navigate(['/auth']);
+  }
 }

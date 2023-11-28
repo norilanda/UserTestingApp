@@ -1,5 +1,6 @@
-<div class="wrapper">
+<div class="wrapper-main-page">
   <mat-card class="tests-card">
+    <a class="go-to-login" (click)="goToLogin()">Go To Login</a>
     <mat-tab-group animationDuration="0ms">
       <mat-tab label="Assigned">
         <app-test-list [tests$]="assignedTests$"></app-test-list>
