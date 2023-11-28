@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UserTestingApp.BLL.Interfaces;
 using UserTestingApp.Common.DTOs.Auth;
 
 namespace UserTestingApp.WebAPI.Controllers;
@@ -7,10 +8,18 @@ namespace UserTestingApp.WebAPI.Controllers;
 [ApiController]
 public class AuthController : ControllerBase
 {
+    private readonly IAuthService _authService;
+
+    public AuthController(IAuthService authService)
+    {
+        _authService = authService;
+    }
 
     [HttpPost("sign-in")]
-    public Task<ActionResult<TokenDto>> SignIn([FromBody] LoginDto login)
+    public async Task<ActionResult<TokenDto>> SignIn([FromBody] LoginDto login)
     {
-        throw new NotImplementedException();
+        var token = await _authService.SignInAsync(login);
+
+        return Ok(token);
     }
 }

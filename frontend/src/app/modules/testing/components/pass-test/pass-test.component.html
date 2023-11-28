@@ -1,0 +1,23 @@
+<div class="wrapper-main-page">
+  <mat-card class="test-details-card">
+    <ng-container *ngIf="testDetails">
+      <h2>{{ testDetails.name }}</h2>
+      <form class="questions" [formGroup]="testForm" (ngSubmit)="onSubmit()">
+        <div class="question-item" *ngFor="let task of testDetails.tasks">
+          <p>{{ task.number }}. {{ task.question }}</p>
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              type="text"
+              [formControlName]="'answer_' + task.number"
+            />
+          </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" [disabled]="!canSubmit()">
+          Submit
+        </button>
+      </form>
+    </ng-container>
+    <p *ngIf="mark !== null">Your Mark: {{ mark }}</p>
+  </mat-card>
+</div>

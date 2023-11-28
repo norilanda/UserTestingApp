@@ -1,0 +1,5 @@
+<div class="tests-list-wrapper">
+  <ng-container *ngFor="let test of tests$ | async">
+    <app-test-item [test]="test"></app-test-item>
+  </ng-container>
+</div>

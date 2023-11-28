@@ -3,5 +3,5 @@
 public record TestDto (
     long Id, 
     string Name, 
-    double Mark
+    double? Mark
     );
