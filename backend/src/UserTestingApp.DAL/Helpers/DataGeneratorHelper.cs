@@ -96,7 +96,7 @@ public static class DataGeneratorHelper
             .RuleFor(u => u.Username, f => $"user{count}")
             .RuleFor(u => u.Salt, Convert.ToBase64String(PasswordHasherHelper.GenerateSalt()))
             .RuleFor(u => u.PasswordHash, 
-                (_, u) => PasswordHasherHelper.HashPassword($"{u.Username}", Convert.FromBase64String(u.Salt)));
+                (_, u) => PasswordHasherHelper.HashPassword($"{u.Username}@@!!", Convert.FromBase64String(u.Salt)));
 
         return userFaker.Generate(_userNumber);
     }

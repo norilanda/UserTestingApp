@@ -10,7 +10,6 @@ export const AuthGuard: CanActivateFn = (route, state) => {
       if (authenticated) {
         return true;
       } else {
-        console.log('object');
         return router.createUrlTree(['/auth']);
       }
     })
